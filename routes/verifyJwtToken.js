@@ -10,24 +10,26 @@ const verifyJwtToken = (req,res, next)=>{
           res.status(403).json("Token is not valid!");
       }
       req.user = user;
-      
+      console.log(token);
+      console.log(authHeader);
+      console.log(req.user);
       next();
       
     });
    
   } else {
   
-    return res.status(401).json("Unauthorized user.");
+   res.status(401).json("Unauthorized user.");
 
   }
 }
 
 const verifyTokenAndAuthorization = (req, res, next) => {
-    verifyJwtToken(req, res, () => {
+    verifyJwtToken(req, res, next, () => {
       if (req.user.id === req.params.id || req.user.isAdmin) {
         next();
       } else {
-        res.status(403).json("ou are not authorized to do that!");
+        res.status(403).json("You are not authorized to do that!");
       }
     });
   };
@@ -37,7 +39,7 @@ const verifyTokenAndAuthorization = (req, res, next) => {
       if (req.user.isAdmin) {
         next();
       } else {
-        res.status(403).json("You are not alowed to do that!");
+        res.status(403).json("You are not an admin and you can not to do that!");
       }
     });
   };
