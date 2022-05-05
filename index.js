@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const userRoute = require("./routes/user");
 const authRoute = require('./routes/auth');
-const menuProductRoute = require('./routes/menuProducts')
+const menuProductRoute = require('./routes/MenuProduct')
 
 
 const app = express();
