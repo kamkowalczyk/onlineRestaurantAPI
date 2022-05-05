@@ -1,7 +1,6 @@
 const router = require("express").Router();
 const MenuProduct = require("../models/MenuProduct");
-const { route } = require("./user");
-const {verifyJwtToken, verifyTokenAndAuthorization, verifyTokenAndAdmin} = require("./verifyJwtToken");
+const { verifyTokenAndAdmin} = require("./verifyJwtToken");
 
 
 
