@@ -30,5 +30,5 @@ app.use("/api/orders", orderRoute);
 
 
 app.listen(process.env.PORT , ()=>{
-    console.log(`Server is running and listening at port ${process.env.PORT}`);
+    console.log(`Server is running and listening at port ${process.env.PORT}.`);
 })

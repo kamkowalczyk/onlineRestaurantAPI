@@ -54,7 +54,7 @@ const {verifyJwtToken, verifyTokenAndAuthorization, verifyTokenAndAdmin} = requi
         }
       });
       
-      //Get all 
+      //Get all carts
       router.get("/", verifyTokenAndAdmin, async (req, res) => {
        try {
            const carts = await Cart.find();
