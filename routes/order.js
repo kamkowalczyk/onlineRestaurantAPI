@@ -71,7 +71,7 @@ const {verifyJwtToken, verifyTokenAndAuthorization, verifyTokenAndAdmin} = requi
 
         try {
             const income  =await Order.aggregate([
-                {$match:{createdAt:{$gte:prevoiusMonth}}},
+                {$match:{createdAt:{$gte:previousMonth}}},
                 {
                     $project:{
                     month:{$month:"$createdAt"},
@@ -86,6 +86,24 @@ const {verifyJwtToken, verifyTokenAndAuthorization, verifyTokenAndAdmin} = requi
                 },
             ]);
             res.status(200).json(income);
+        } catch (error) {
+            res.status(500).json(error);
+        }
+       });
+
+        //Get income with date
+      router.get("/incomeDate", verifyTokenAndAdmin, async (req, res) => {
+      
+        const startDateQuery =  new Date(req.query.sDate).toISOString();
+        const endDateQuery = new Date(req.query.eDate).toISOString();
+      
+        try {
+            const incomeDate  =await Order.find([
+              {$match:{createdAt:{$gte: startDateQuery, $lte: endDateQuery}}},
+              
+            ]);
+           
+            res.status(200).json(incomeDate);
         } catch (error) {
             res.status(500).json(error);
         }
