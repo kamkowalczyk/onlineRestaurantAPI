@@ -45,7 +45,7 @@ const {verifyJwtToken, verifyTokenAndAuthorization, verifyTokenAndAdmin} = requi
       
     
       //Get order
-      router.get("/:orderId", verifyTokenAndAuthorization , async (req, res) => {
+      router.get("/menuProducts/:orderId", verifyTokenAndAuthorization , async (req, res) => {
         try {
           const orders = await Order.find({orderId: req.params.orderId});
           res.status(200).json(orders);
@@ -92,21 +92,18 @@ const {verifyJwtToken, verifyTokenAndAuthorization, verifyTokenAndAdmin} = requi
        });
 
         //Get income with date
-      router.get("/incomeDate", verifyTokenAndAdmin, async (req, res) => {
-      
-        const startDateQuery =  new Date(req.query.sDate).toISOString();
-        const endDateQuery = new Date(req.query.eDate).toISOString();
+      router.get("/incomeWithDate", verifyTokenAndAdmin, async (req, res) => {
       
         try {
-            const incomeDate  =await Order.find([
-              {$match:{createdAt:{$gte: startDateQuery, $lte: endDateQuery}}},
-              
-            ]);
+            const incomeWithDate  =await Order.find({
+              createdAt:{$gte:req.query.from, $lte:req.query.to}
+            }).limit(req.query.limit).sort({createdAt:"desc"});
            
-            res.status(200).json(incomeDate);
+            res.status(200).json(incomeWithDate);
         } catch (error) {
             res.status(500).json(error);
         }
+         
        });
 
 module.exports = router

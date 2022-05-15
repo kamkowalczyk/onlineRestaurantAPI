@@ -37,7 +37,7 @@ router.delete("/:id", verifyTokenAndAuthorization, async (req, res) => {
   });
   
   //Get user
-  router.get("/:id", verifyTokenAndAdmin, async (req, res) => {
+  router.get("/getUser/:id", verifyTokenAndAdmin, async (req, res) => {
     try {
       const user = await User.findById(req.params.id);
       const { password, ...others } = user._doc;
@@ -59,6 +59,19 @@ router.delete("/:id", verifyTokenAndAuthorization, async (req, res) => {
       res.status(500).json(error);
     }
   });
+  router.get("/usersWithDate", verifyTokenAndAdmin, async (req, res) => {
+      
+    try {
+        const usersWithDate  =await User.find({
+          createdAt:{$gte:req.query.from, $lte:req.query.to}
+        }).limit(req.query.limit).sort({createdAt:"asc"});
+       
+        res.status(200).json(usersWithDate);
+    } catch (error) {
+        res.status(500).json(error);
+    }
+     
+   });
 
 
 module.exports = router
